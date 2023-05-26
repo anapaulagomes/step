@@ -1,6 +1,5 @@
 import typer
-from typing_extensions import Annotated
-
+from rich.prompt import Prompt
 
 """
 Notes:
@@ -11,38 +10,41 @@ commands -> h2 of markdown
 """
 
 app = typer.Typer()
-Confirmation = Annotated[
-    bool, typer.Option(prompt="Was this step executed?")
-]
 steps = {
     "Pull the code from the main branch" : [],
     "Configure the environment": [
         "Configure the environment variables in the .env file",
         "Install the dependencies with: `pip install -r requirements.txt`",
         "Run the migrations: `python manage.py migrate`",
-        "Done!"
-    ]
+    ],
+    "Done!": []
 }  # TODO ordered dict
 
 
 @app.command()
-def checklist(confirmation: Confirmation):
+def checklist():
     for step, substeps in steps.items():
-        print(step)
+        typer.echo(step)
         for substep in substeps:
-           print(f"-- {substep}")
+           typer.echo(f"-- {substep}")
         # if confirmation:
         #     print("Done, onto the next!")
         # else:
         #     break
-        print("\n")
+        confirmation = Prompt.ask("Continue? (y/n/s)")
+        if confirmation.lower() == "y":
+            typer.echo(":checked: ✅")
+        elif confirmation.lower() == "n":
+            raise typer.Exit()
+        else:
+            typer.echo("⏭")
 
 
 @app.command()
-def after_deploy(confirmation: Confirmation):
+def after_deploy():
     print("After the deploy don't forget about notifying people in the team's Slack channel.")
 
 
 if __name__ == "__main__":
-    print("Deploy")  # TODO text before h2
+    typer.echo("Deploy")  # TODO text before h2
     app()
