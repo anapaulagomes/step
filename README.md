@@ -3,7 +3,7 @@ The first step to automate things; from a Markdown into a CLI
 
 ## The rationale behind this
 
-There are so many manual tasks out there, most of them made of inumerous steps.
+There are so many manual tasks out there, most of them made of innumerous steps.
 Whenever someone thinks about automating them or even proposing this to their team,
 it sounds like a Herculean task.
 
