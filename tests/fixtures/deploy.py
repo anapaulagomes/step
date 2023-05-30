@@ -31,7 +31,7 @@ def checklist():
         #     print("Done, onto the next!")
         # else:
         #     break
-        confirmation = Prompt.ask("Continue? (y/n/s)")
+        confirmation = Prompt.ask("Continue?", choices=["y", "n", "s"], default="y")
         if confirmation.lower() == "y":
             typer.echo(":checked: ✅")
         elif confirmation.lower() == "n":
