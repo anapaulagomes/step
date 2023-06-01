@@ -2,6 +2,8 @@ import typer
 
 from rich.prompt import Prompt
 
+from step.step import Step
+
 """
 Notes:
 
@@ -18,28 +20,45 @@ commands -> h2 of markdown
 # console.print(md)
 
 app = typer.Typer()
-steps = {
-    "1. Pull the code from the main branch": {
-        "steps": [],
-        "done": ""
-    },
-    "2. Configure the environment": {
-        "steps": [
-            "Configure the environment variables in the .env file",
-            "Install the dependencies with: `pip install -r requirements.txt`",
-            "Run the migrations: `python manage.py migrate`"
+
+# TODO generate this from a markdown file
+steps = [
+    Step(
+        title="Pull the code from the main branch",
+        description="",
+        sub_steps=[],
+    ),
+    Step(
+        title="Configure the environment",
+        description="",
+        sub_steps=[
+            Step(
+                title="Configure the environment variables in the `.env` file",
+                description="",
+                sub_steps=[],
+            ),
+            Step(
+                title="Install the dependencies with...",
+                description="...",
+                sub_steps=[],
+            ),
         ],
-        "done": ""
-    },
-    "3. Done!": {
-        "steps": [],
-        "done": ""
-    }
-}  # TODO ordered dict
+    ),
+    Step(
+        title="Run the migrations: `python manage.py migrate`",
+        description="",
+        sub_steps=[],
+    ),
+    Step(
+        title="Done!",
+        description="",
+        sub_steps=[],
+    ),
+]
 
 
 def confirmation_to_emoji():
-    confirmation = Prompt.ask("Done?", choices=["y", "n", "s", "q"], default="y")
+    confirmation = Prompt.ask("Completed?", choices=["y", "n", "s", "q"], default="y")
 
     if confirmation.lower() == "y":
         return "✅"
@@ -53,10 +72,14 @@ def confirmation_to_emoji():
 
 @app.command()
 def checklist():
-    for step, info in steps.items():
-        typer.secho(f"{step} ({len(info['steps'])} steps)", fg=typer.colors.BLUE)
-        for substep in info["steps"]:
-            typer.echo(f"-- {substep}")
+    for number, step in enumerate(steps, start=1):
+        number_of_sub_steps = len(step.sub_steps)
+        message_number_of_sub_steps = f"({number_of_sub_steps} sub_steps)" if number_of_sub_steps else ""
+
+        typer.secho(f"{step.title} {message_number_of_sub_steps}", fg=typer.colors.BLUE)
+        for sub_step in step.sub_steps:
+            typer.echo(f"-- {sub_step.title}")
+            # TODO implement nested options
             typer.echo(confirmation_to_emoji())
         else:
             typer.echo(confirmation_to_emoji())

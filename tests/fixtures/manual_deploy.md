@@ -20,4 +20,4 @@ pip install -r requirements.txt
 
 ## After deploy
 
-After the deploy don't forget about notifying people in the team's Slack channel.
+After the deployment don't forget about notifying people in the team's Slack channel.
