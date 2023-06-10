@@ -4,20 +4,6 @@ from rich.prompt import Prompt
 
 from step.step import Step
 
-"""
-Notes:
-
-name of the file -> h1 of markdown
-text of intro -> text just after h1
-commands -> h2 of markdown
-"""
-
-# from rich.console import Console
-# from rich.markdown import Markdown
-# from pathlib import Path
-# console = Console()
-# md = Markdown(Path("tests/fixtures/manual_deploy.md").read_text())
-# console.print(md)
 
 app = typer.Typer()
 
@@ -76,7 +62,7 @@ def checklist():
         number_of_sub_steps = len(step.sub_steps)
         message_number_of_sub_steps = f"({number_of_sub_steps} sub_steps)" if number_of_sub_steps else ""
 
-        typer.secho(f"{step.title} {message_number_of_sub_steps}", fg=typer.colors.BLUE)
+        typer.secho(f"{number}. {step.title} {message_number_of_sub_steps}", bold=True)
         for sub_step in step.sub_steps:
             typer.echo(f"-- {sub_step.title}")
             # TODO implement nested options

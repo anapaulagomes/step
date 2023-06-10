@@ -1,6 +1,6 @@
 # Deploy 🚀
 
-Currently, our deploy is executed by a human being.
+Currently, our deployment is executed by a human being.
 Fear not, this is a step-by-step to guide you through it.
 Ready?
 

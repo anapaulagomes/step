@@ -10,6 +10,12 @@ it sounds like a Herculean task.
 What if we turn a checklist into a CLI and turn a gigantic process into something
 more feasible?
 
+## How to use it
+
+```bash
+step deploy path-to/manual_deploy.md
+```
+
 ## Development
 
 First, you're going to need Python 3.10+. Then, [poetry]() installed.
