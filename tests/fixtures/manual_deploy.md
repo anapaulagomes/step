@@ -7,6 +7,7 @@ Ready?
 ## Checklist
 
 1. Pull the code from the `main` branch
+from the main project repo
 2. Configure the environment
     1. Configure the environment variables in the `.env` file
     2. Install the dependencies with:

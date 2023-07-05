@@ -39,13 +39,14 @@ def cli_name_and_description(first_head):
 
 
 def retrieve_content_from_tree(node: SyntaxTreeNode, content=""):
-    content += node.content
+    if node.type == "inline":
+        content += node.content
 
     if not node.children:
         return content
 
     for child in node.children:
-        return retrieve_content_from_tree(child)
+        return retrieve_content_from_tree(child, content)
 
 
 def convert_section_to_steps(section):
@@ -57,10 +58,14 @@ def convert_section_to_steps(section):
         elif item.tag in ["ol", "ul"]:
             # list of list_item - substeps
             for child in item.children:
-                # FIXME get markdown code from children
-                sub_steps.append(Step(
-                    title=retrieve_content_from_tree(child)
-                ))
+                sub_steps.append(
+                    Step(
+                        title=retrieve_content_from_tree(child)
+                    )
+                )
+            data["sub_steps"] = sub_steps
+        else:
+            data["description"] = retrieve_content_from_tree(item)
     return Step(**data)
 
 
