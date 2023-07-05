@@ -10,10 +10,9 @@ Ready?
 2. Configure the environment
     1. Configure the environment variables in the `.env` file
     2. Install the dependencies with:
-
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 3. Run the migrations: `python manage.py migrate`
 4. Done!

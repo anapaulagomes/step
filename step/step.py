@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Any, Callable
 
@@ -9,8 +9,8 @@ from markdown_it.tree import SyntaxTreeNode
 @dataclass
 class Step:
     title: str
-    description: str
-    sub_steps: List[Any]  # to handle the lack of self
+    description: str = ""
+    sub_steps: List[Any] = field(default_factory=list)
     function: Callable = lambda x: x
 
 
@@ -38,8 +38,30 @@ def cli_name_and_description(first_head):
     return name, description
 
 
-def tree_to_steps(heading):
-    pass
+def retrieve_content_from_tree(node: SyntaxTreeNode, content=""):
+    content += node.content
+
+    if not node.children:
+        return content
+
+    for child in node.children:
+        return retrieve_content_from_tree(child)
+
+
+def convert_section_to_steps(section):
+    data = {}
+    sub_steps = []
+    for item in section:
+        if item.tag in ["h1", "h2"]:
+            data["title"] = retrieve_content_from_tree(item)
+        elif item.tag in ["ol", "ul"]:
+            # list of list_item - substeps
+            for child in item.children:
+                # FIXME get markdown code from children
+                sub_steps.append(Step(
+                    title=retrieve_content_from_tree(child)
+                ))
+    return Step(**data)
 
 
 def from_markdown_to_steps(markdown_filepath: Path):
@@ -47,13 +69,12 @@ def from_markdown_to_steps(markdown_filepath: Path):
     tokens = md.parse(markdown_filepath.read_text())
 
     node = SyntaxTreeNode(tokens)
-    headings = break_by_headings(node.children)
-    first_head = headings.pop()
+    sections = break_by_headings(node.children)
+    first_head = sections.pop(0)
     name, description = cli_name_and_description(first_head)
     checklist = []
-    for heading in headings:
-        # TODO for each heading, a step
-        tree_to_steps(heading)  # FIXME
+    for section in sections:
+        checklist.append(convert_section_to_steps(section))
 
     return name, description, checklist
 
