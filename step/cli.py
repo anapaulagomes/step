@@ -2,7 +2,7 @@ from pathlib import Path
 
 import typer
 
-from step.step import from_markdown_to_steps, generate_cli_from
+from step.step import generate_cli_from
 
 app = typer.Typer()
 

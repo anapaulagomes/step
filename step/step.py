@@ -3,7 +3,11 @@ from pathlib import Path
 from typing import List, Any, Callable
 
 from markdown_it import MarkdownIt
+from markdown_it.renderer import RendererHTML
 from markdown_it.tree import SyntaxTreeNode
+
+
+md = MarkdownIt("commonmark").enable("strikethrough")
 
 
 @dataclass
@@ -38,7 +42,7 @@ def cli_name_and_description(first_head):
     return name, description
 
 
-def retrieve_content_from_tree(node: SyntaxTreeNode, content=""):
+def retrieve_content_from_tree(node: SyntaxTreeNode, content: str = ""):
     if node.type == "inline":
         content += node.content
 
@@ -52,15 +56,20 @@ def retrieve_content_from_tree(node: SyntaxTreeNode, content=""):
 def convert_section_to_steps(section):
     data = {}
     sub_steps = []
+    rh = RendererHTML()
+
     for item in section:
         if item.tag in ["h1", "h2"]:
             data["title"] = retrieve_content_from_tree(item)
         elif item.tag in ["ol", "ul"]:
             # list of list_item - substeps
             for child in item.children:
+                # it would be nice to have the original Markdown code here
+                # by now, we can work with HTML in the description
                 sub_steps.append(
                     Step(
-                        title=retrieve_content_from_tree(child)
+                        title=retrieve_content_from_tree(child),
+                        description=rh.render(child.to_tokens(), md.options, None)
                     )
                 )
             data["sub_steps"] = sub_steps
@@ -70,7 +79,6 @@ def convert_section_to_steps(section):
 
 
 def from_markdown_to_steps(markdown_filepath: Path):
-    md = MarkdownIt("commonmark").enable("strikethrough")
     tokens = md.parse(markdown_filepath.read_text())
 
     node = SyntaxTreeNode(tokens)
