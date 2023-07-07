@@ -22,7 +22,7 @@ def test_convert_markdown_to_steps():
         "<li>Configure the environment variables in the <code>.env</code> file</li>\n"
         "<li>Install the dependencies with:</li>\n"
         "</ol>\n"
-        "<pre><code class=\"language-bash\">pip install -r requirements.txt\n"
+        '<pre><code class="language-bash">pip install -r requirements.txt\n'
         "</code></pre>\n"
         "</li>\n"
     )

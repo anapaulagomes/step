@@ -1,9 +1,7 @@
 import typer
-
 from rich.prompt import Prompt
 
 from step.step import Step
-
 
 app = typer.Typer()
 
@@ -60,7 +58,9 @@ def confirmation_to_emoji():
 def checklist():
     for number, step in enumerate(steps, start=1):
         number_of_sub_steps = len(step.sub_steps)
-        message_number_of_sub_steps = f"({number_of_sub_steps} sub_steps)" if number_of_sub_steps else ""
+        message_number_of_sub_steps = (
+            f"({number_of_sub_steps} sub_steps)" if number_of_sub_steps else ""
+        )
 
         typer.secho(f"{number}. {step.title} {message_number_of_sub_steps}", bold=True)
         for sub_step in step.sub_steps:
@@ -73,7 +73,10 @@ def checklist():
 
 @app.command()
 def after_deploy():
-    print("After the deploy don't forget about notifying people in the team's Slack channel.")
+    print(
+        "After the deploy don't forget about notifying people "
+        "in the team's Slack channel."
+    )
 
 
 if __name__ == "__main__":

@@ -1,11 +1,10 @@
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Any, Callable
+from typing import Any, Callable, List
 
 from markdown_it import MarkdownIt
 from markdown_it.renderer import RendererHTML
 from markdown_it.tree import SyntaxTreeNode
-
 
 md = MarkdownIt("commonmark").enable("strikethrough")
 
@@ -15,7 +14,7 @@ class Step:
     title: str
     description: str = ""
     sub_steps: List[Any] = field(default_factory=list)
-    function: Callable = lambda x: x
+    function: Callable = lambda x: x  # noqa
 
 
 def break_by_headings(node_list):
@@ -69,7 +68,7 @@ def convert_section_to_steps(section):
                 sub_steps.append(
                     Step(
                         title=retrieve_content_from_tree(child),
-                        description=rh.render(child.to_tokens(), md.options, None)
+                        description=rh.render(child.to_tokens(), md.options, None),
                     )
                 )
             data["sub_steps"] = sub_steps
