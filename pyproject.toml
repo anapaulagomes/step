@@ -22,3 +22,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 step = "step.cli:app"
+
+[tool.ruff]
+exclude = ["tests/fixtures", "step/templates"]
