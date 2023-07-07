@@ -1,84 +1,98 @@
 import typer
-from rich.prompt import Prompt
 
+from step.external_cli import handle_substeps
 from step.step import Step
 
 app = typer.Typer()
 
-# TODO generate this from a markdown file
+
 steps = [
     Step(
-        title="Pull the code from the main branch",
-        description="",
-        sub_steps=[],
-    ),
-    Step(
-        title="Configure the environment",
+        title="Checklist",
         description="",
         sub_steps=[
             Step(
-                title="Configure the environment variables in the `.env` file",
-                description="",
+                title="Pull the code from the `main` branch\n"
+                "from the main project repo",
+                description="Pull the code from the `main` branch\n"
+                "from the main project repo\n",
                 sub_steps=[],
             ),
             Step(
-                title="Install the dependencies with...",
-                description="...",
+                title="Configure the environment",
+                description="Configure the environment\n"
+                "\n"
+                "1. Configure the environment variables in "
+                "the `.env` file\n"
+                "1. Install the dependencies with:\n"
+                "\n"
+                "```bash\n"
+                "pip install -r requirements.txt\n"
+                "```\n",
                 sub_steps=[],
             ),
+            Step(
+                title="Run the migrations: `python manage.py migrate`",
+                description="Run the migrations: `python manage.py " "migrate`\n",
+                sub_steps=[],
+            ),
+            Step(title="Done!", description="Done!\n", sub_steps=[]),
         ],
     ),
     Step(
-        title="Run the migrations: `python manage.py migrate`",
-        description="",
+        title="After deploy",
+        description="After the deployment don't forget about notifying people in "
+        "the team's Slack channel.",
         sub_steps=[],
-    ),
-    Step(
-        title="Done!",
-        description="",
-        sub_steps=[],
+        # function= # you can add a callback in any step
     ),
 ]
 
 
-def confirmation_to_emoji():
-    confirmation = Prompt.ask("Completed?", choices=["y", "n", "s", "q"], default="y")
-
-    if confirmation.lower() == "y":
-        return "✅"
-    elif confirmation.lower() == "n":
-        return "❌"
-    elif confirmation.lower() == "s":
-        return "⏭️"
-    elif confirmation.lower() == "q":
-        raise typer.Exit()
-
-
 @app.command()
 def checklist():
-    for number, step in enumerate(steps, start=1):
-        number_of_sub_steps = len(step.sub_steps)
-        message_number_of_sub_steps = (
-            f"({number_of_sub_steps} sub_steps)" if number_of_sub_steps else ""
-        )
-
-        typer.secho(f"{number}. {step.title} {message_number_of_sub_steps}", bold=True)
-        for sub_step in step.sub_steps:
-            typer.echo(f"-- {sub_step.title}")
-            # TODO implement nested options
-            typer.echo(confirmation_to_emoji())
-        else:
-            typer.echo(confirmation_to_emoji())
+    typer.echo("")
+    sub_steps = [
+        Step(
+            title="Pull the code from the `main` branch\n" "from the main project repo",
+            description="Pull the code from the `main` branch\n"
+            "from the main project repo\n",
+            sub_steps=[],
+        ),
+        Step(
+            title="Configure the environment",
+            description="Configure the environment\n"
+            "\n"
+            "1. Configure the environment variables in "
+            "the `.env` file\n"
+            "1. Install the dependencies with:\n"
+            "\n"
+            "```bash\n"
+            "pip install -r requirements.txt\n"
+            "```\n",
+            sub_steps=[],
+        ),
+        Step(
+            title="Run the migrations: `python manage.py migrate`",
+            description="Run the migrations: `python manage.py " "migrate`\n",
+            sub_steps=[],
+        ),
+        Step(title="Done!", description="Done!\n", sub_steps=[]),
+    ]
+    handle_substeps(sub_steps)
 
 
 @app.command()
 def after_deploy():
-    print(
+    typer.echo(
         "After the deploy don't forget about notifying people "
         "in the team's Slack channel."
     )
 
 
 if __name__ == "__main__":
-    typer.secho("--- Deploy ---", fg=typer.colors.BRIGHT_BLACK)  # TODO text before h2
+    typer.secho("Deploy 🚀", fg=typer.colors.BRIGHT_BLACK)
+    typer.echo(
+        "Currently, our deployment is executed by a human being.\Fear not, this is a step-by-step to guide you through it.\nReady?"
+    )
     app()
