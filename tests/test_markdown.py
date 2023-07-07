@@ -1,6 +1,8 @@
 from pathlib import Path
 
-from step.step import from_markdown_to_steps, Step
+from step.step import Step
+from step.markdown import from_markdown_to_steps
+
 
 expected_checklist = [
     Step(

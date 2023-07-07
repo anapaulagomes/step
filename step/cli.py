@@ -2,9 +2,16 @@ from pathlib import Path
 
 import typer
 
-from step.step import generate_cli_from
+from step.markdown import from_markdown_to_steps
 
 app = typer.Typer()
+
+
+def generate_cli_from(cli_name: str, markdown_filepath: Path):
+    cli_path = Path(cli_name)
+    name, description, checklist = from_markdown_to_steps(markdown_filepath)
+    # TODO create python file
+    return cli_path
 
 
 @app.command()
