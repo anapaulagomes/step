@@ -3,10 +3,11 @@ from pathlib import Path
 from typing import Any, Callable, List
 
 from markdown_it import MarkdownIt
-from markdown_it.renderer import RendererHTML
 from markdown_it.tree import SyntaxTreeNode
+from mdformat.renderer import MDRenderer
 
 md = MarkdownIt("commonmark").enable("strikethrough")
+renderer = MDRenderer()
 
 
 @dataclass
@@ -52,10 +53,15 @@ def retrieve_content_from_tree(node: SyntaxTreeNode, content: str = ""):
         return retrieve_content_from_tree(child, content)
 
 
+def extract_markdown_from_subtree(node):
+    # make it a tree first
+    node.token, node.nester_tokens = None, []
+    return renderer.render(node.to_tokens(), md.options, {})
+
+
 def convert_section_to_steps(section):
     data = {}
     sub_steps = []
-    rh = RendererHTML()
 
     for item in section:
         if item.tag in ["h1", "h2"]:
@@ -63,12 +69,13 @@ def convert_section_to_steps(section):
         elif item.tag in ["ol", "ul"]:
             # list of list_item - substeps
             for child in item.children:
+                markdown = extract_markdown_from_subtree(child)
                 # it would be nice to have the original Markdown code here
                 # by now, we can work with HTML in the description
                 sub_steps.append(
                     Step(
                         title=retrieve_content_from_tree(child),
-                        description=rh.render(child.to_tokens(), md.options, None),
+                        description=markdown,
                     )
                 )
             data["sub_steps"] = sub_steps

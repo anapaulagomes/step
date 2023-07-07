@@ -278,6 +278,22 @@ files = [
 traitlets = "*"
 
 [[package]]
+name = "mdformat"
+version = "0.7.16"
+description = "CommonMark compliant Markdown formatter"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "mdformat-0.7.16-py3-none-any.whl", hash = "sha256:76398d03baa394f331fb560fd0aed8257cf77b65b1c8146b92d395af16253662"},
+    {file = "mdformat-0.7.16.tar.gz", hash = "sha256:99b105033207d2ab70ba1ced8e07327ed4ef1e0a6bc1c7c00207ea73ab502782"},
+]
+
+[package.dependencies]
+markdown-it-py = ">=1.0.0,<3.0.0"
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
+
+[[package]]
 name = "mdurl"
 version = "0.1.2"
 description = "Markdown URL utilities"
@@ -624,7 +640,7 @@ tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -721,4 +737,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "5d3a82bc6ff13a187a0238281f68e720d64768c33272585d9517033a794c3d38"
+content-hash = "a61d98e672a1a75490c2a2b51730922f61915b0c94c5334ed83d68a7639b1cc1"
