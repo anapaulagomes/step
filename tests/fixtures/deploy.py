@@ -1,6 +1,6 @@
 import typer
 
-from step.external_cli import handle_substeps
+from step.external_cli import handle_sub_steps
 from step.step import Step
 
 app = typer.Typer()
@@ -79,7 +79,7 @@ def checklist():
         ),
         Step(title="Done!", description="Done!\n", sub_steps=[]),
     ]
-    handle_substeps(sub_steps)
+    handle_sub_steps(sub_steps)
 
 
 @app.command()

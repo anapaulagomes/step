@@ -15,7 +15,7 @@ def confirmation_to_emoji():
         raise typer.Exit()
 
 
-def handle_substeps(sub_steps):
+def handle_sub_steps(sub_steps):
     for number, step in enumerate(sub_steps, start=1):
         number_of_sub_steps = len(step.sub_steps)
         message_number_of_sub_steps = (

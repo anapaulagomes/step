@@ -1,8 +1,7 @@
-from dataclasses import dataclass, field
-from typing import List, Any
+from step.step import Step
+from step.external_cli import handle_sub_steps
 
 import typer
-from rich.prompt import Prompt
 
 
 app = typer.Typer()
@@ -13,5 +12,7 @@ STEP_CHECKLIST_HERE
 
 if __name__ == "__main__":
     typer.secho("STEP_NAME_HERE", fg=typer.colors.BRIGHT_BLACK)
-    typer.secho("STEP_DESCRIPTION_HERE", fg=typer.colors.BRIGHT_BLACK)
+    typer.secho("""
+    STEP_DESCRIPTION_HERE""",
+    fg=typer.colors.BRIGHT_BLACK)
     app()

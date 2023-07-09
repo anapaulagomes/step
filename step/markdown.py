@@ -35,7 +35,7 @@ def convert_section_to_steps(section):
         if item.tag in ["h1", "h2"]:
             data["title"] = retrieve_content_from_tree(item)
         elif item.tag in ["ol", "ul"]:
-            # list of list_item - substeps
+            # list of list_item - sub_steps
             for child in item.children:
                 markdown = extract_markdown_from_subtree(child)
                 # it would be nice to have the original Markdown code here
