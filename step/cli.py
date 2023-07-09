@@ -8,6 +8,27 @@ from step.markdown import from_markdown_to_steps
 app = typer.Typer()
 
 
+class InvalidMethodName(Exception):
+    pass
+
+
+def convert_to_python_method_name(phrase):
+    if not phrase:
+        raise InvalidMethodName(f"Cannot convert it into a method name: {phrase}")
+
+    phrase = phrase.lower().replace(" ", "_")
+    only_alpha_numeric = "".join(
+        [char for char in phrase if char.isalnum() or char == "_"]
+    )
+
+    if not only_alpha_numeric or only_alpha_numeric[0].isdigit():
+        raise InvalidMethodName(
+            f"Cannot convert it into a method name: {only_alpha_numeric}"
+        )
+
+    return only_alpha_numeric
+
+
 def generate_cli_from(cli_name: str, markdown_filepath: Path):
     name, description, checklist = from_markdown_to_steps(markdown_filepath)
     if not cli_name:
@@ -23,9 +44,7 @@ def generate_cli_from(cli_name: str, markdown_filepath: Path):
 
     commands = []
     for step in checklist:
-        title = step.title.lower().replace(
-            " ", "_"
-        )  # TODO make sure it is valid python
+        title = convert_to_python_method_name(step.title)
         command_template = Path("step/templates/command.py.template").read_text()
         command_template = command_template.replace("STEP_TITLE_HERE", title)
         command_template = command_template.replace(
