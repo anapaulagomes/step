@@ -13,9 +13,11 @@ more feasible?
 ## How to use it
 
 ```bash
-step deploy path-to/manual_deploy.md
+step path-to/YOUR-MARKDOWN.md
 ```
 
 ## Development
 
-First, you're going to need Python 3.10+. Then, [poetry]() installed.
+First, you're going to need Python 3.10+. Then, [poetry](https://python-poetry.org/) installed.
+
+This project is in its alpha version, so there is more documentation to come.
