@@ -16,6 +16,12 @@ more feasible?
 step path-to/YOUR-MARKDOWN.md
 ```
 
+Your markdown checklist will turn into a functioning CLI.
+There you will also find the `Step` object. You can add to it
+a callback function and smoothly migrate from a manual to automated approach.
+
+A functional example will come soon.
+
 ## Development
 
 First, you're going to need Python 3.10+. Then, [poetry](https://python-poetry.org/) installed.
