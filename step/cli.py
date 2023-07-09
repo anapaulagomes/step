@@ -1,4 +1,4 @@
-# import pprint
+import pprint
 from pathlib import Path
 
 import typer
@@ -31,12 +31,24 @@ def generate_cli_from(cli_name: str, markdown_filepath: Path):
         command_template = command_template.replace(
             "STEP_DESCRIPTION_HERE", step.description
         )
-        commands.append(command_template)
-        # TODO add sub_steps (STEP_SUB_STEPS)
-        # FIXME deal with break lines from markdown
+        sub_steps_template = ""
+        if step.sub_steps:
+            pretty_sub_steps = pprint.pformat(step.sub_steps, indent=4)
+            declaration = f"sub_steps = {pretty_sub_steps}"
+            sub_steps_template = Path(
+                "step/templates/sub_steps.py.template"
+            ).read_text()
+            sub_steps_template = sub_steps_template.replace(
+                "STEP_SUB_STEPS_DECLARATION", declaration
+            )
+        command_template = command_template.replace(
+            "STEP_SUB_STEPS", sub_steps_template
+        )
 
-    # pretty_commands = pprint.pformat(commands, indent=4)
-    cli_template = cli_template.replace("STEP_CHECKLIST_HERE", "\n\n".join(commands))
+        commands.append(command_template)
+
+    commands = "\n\n".join(commands)
+    cli_template = cli_template.replace("STEP_CHECKLIST_HERE", commands)
     cli_filepath.write_text(cli_template)
 
     return cli_filepath

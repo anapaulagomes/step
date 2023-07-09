@@ -1,4 +1,6 @@
 @app.command()
 def STEP_TITLE_HERE():
-    typer.echo("STEP_DESCRIPTION_HERE")
+    typer.echo("""
+    STEP_DESCRIPTION_HERE
+    """)
     STEP_SUB_STEPS
