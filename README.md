@@ -1,6 +1,9 @@
 # step
 The first step to automate things; from a Markdown into a CLI
 
+[![PyPI version](https://badge.fury.io/py/step.svg)](https://badge.fury.io/py/step)
+[![Tests](https://github.com/anapaulagomes/step/actions/workflows/tests.yml/badge.svg)](https://github.com/anapaulagomes/step/actions/workflows/tests.yml)
+
 ## The rationale behind this
 
 There are so many manual tasks out there, most of them made of innumerous steps.
