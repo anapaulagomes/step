@@ -6,7 +6,7 @@ from mdformat.renderer import MDRenderer
 
 from step.step import Step
 
-md = MarkdownIt("commonmark").enable("strikethrough")
+md = MarkdownIt("commonmark")
 renderer = MDRenderer()
 
 
