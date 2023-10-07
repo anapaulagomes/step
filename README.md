@@ -25,6 +25,16 @@ a callback function and smoothly migrate from a manual to automated approach.
 
 A functional example will come soon.
 
+### About the markdown
+
+A few assumptions are made about the Markdown format:
+
+- the first head and paragraph are general descriptions, so they
+are used as name and description for the generated CLI
+- to avoid nested sub steps in the alpha version of this lib, sub steps
+are created until the second level; the remaining levels are rendered
+as Markdown code
+
 ## Development
 
 First, you're going to need Python 3.10+. Then, [poetry](https://python-poetry.org/) installed.

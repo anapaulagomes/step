@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 cli_*.py
+!examples/**/cli_*.py
